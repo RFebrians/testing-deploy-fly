@@ -1,18 +1,17 @@
-name: 'create release' # set whatever name you want to your github job
+name: Deploy
 
-on: {push} # set the events you would like to trigger this job
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Build, Push and Deploy to Heroku # set whatever name you want to this step
-        id: heroku
-        uses: jctaveras/heroku-deploy@v1.0.0 # use the latest version of the action
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
-          api_key: ${{ secrets.HEROKU_API_KEY }} # your heroku api key
-          app_name: ${{ secrets.HEROKU_APP_NAME }} # you aplication name
-          Dockerfile_path: './'
-          
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "advent-research" #Must be unique in Heroku
+          heroku_email: "ekikz1997@gmail.com"
